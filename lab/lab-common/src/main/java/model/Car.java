@@ -2,7 +2,6 @@ package model;
 
 import org.jspecify.annotations.NonNull;
 
-public class Car implements Comparable<Car> {
 
     @NonNull private final String name; //Поле не может быть null
     @NonNull private final Boolean cool; //Поле не может быть null

@@ -1,10 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import org.jspecify.annotations.NonNull;
 
-public class HumanBeing implements Comparable<HumanBeing>{
-    private final int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+public class HumanBeing implements Comparable<HumanBeing>, Serializable {
+    @NonNull
+    private UUID id; // Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     @NonNull
     private String name; //Поле не может быть null, Строка не может быть пустой
     @NonNull
@@ -18,7 +21,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
     private WeaponType weaponType; //Поле не может быть null
     private Mood mood; //Поле может быть null
     private Car car; //Поле может быть null
-    public HumanBeing(int id, @NonNull String name, @NonNull Coordinates coordinates, boolean realHero,
+    public HumanBeing(@NonNull UUID id, @NonNull String name, @NonNull Coordinates coordinates, boolean realHero,
                       @NonNull Boolean hasToothpick, Integer impactSpeed, @NonNull WeaponType weaponType,
                       Mood mood, Car car) {
         this.id = id;
@@ -38,8 +41,16 @@ public class HumanBeing implements Comparable<HumanBeing>{
         this.mood = mood;
         this.car = car;
     }
-    public int getId() {
+    public HumanBeing(@NonNull String name, @NonNull Coordinates coordinates, boolean realHero,
+                      @NonNull Boolean hasToothpick, Integer impactSpeed, @NonNull WeaponType weaponType,
+                      Mood mood, Car car) {
+        this(UUID.randomUUID(), name, coordinates, realHero, hasToothpick, impactSpeed, weaponType, mood, car);
+    }
+    public @NonNull UUID getId() {
         return id;
+    }
+    public void setId(@NonNull UUID id) {
+        this.id = id;
     }
     public @NonNull String getName() {
         return name;
@@ -98,13 +109,7 @@ public class HumanBeing implements Comparable<HumanBeing>{
 
     @Override
     public int compareTo(@NonNull HumanBeing o) {
-        if (impactSpeed == null && o.impactSpeed == null)
-            return 0;
-        if (impactSpeed == null)
-            return -1;
-        if (o.impactSpeed == null)
-            return 1;
-        return impactSpeed.compareTo(o.impactSpeed);
+        return this.name.compareTo(o.name);
     }
     @Override
     public String toString() {

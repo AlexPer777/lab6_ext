@@ -1,10 +1,11 @@
 package response;
 
 import model.HumanBeing;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Response {
+public class Response implements Serializable {
     private final String message;
     private final ResponseStatus status;
     private final List<HumanBeing> humanBeings;

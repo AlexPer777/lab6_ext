@@ -24,7 +24,6 @@ public class CommandExecutor {
     }
     public void initCommands() {
         commands.put("help", new HelpCommand(collectionManager));
-        commands.put("exit", new ExitCommand(collectionManager));
         commands.put("show", new ShowCommand(collectionManager));
         commands.put("clear", new ClearCommand(collectionManager));
         commands.put("info", new InfoCommand(collectionManager));

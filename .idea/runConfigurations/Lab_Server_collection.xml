@@ -4,7 +4,7 @@
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="aleksei.lab.server.Server" />
     <module name="lab-server" />
-    <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/lab/collection.json" />
+    <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/lab/collection.json 9876" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lab" />
     <method v="2">
       <option name="Make" enabled="true" />

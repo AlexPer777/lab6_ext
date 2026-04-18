@@ -18,7 +18,6 @@
         <version>3.6.0</version>
         <configuration>
           <violationSeverity>warning</violationSeverity>
-          <encoding>UTF-8</encoding>
           <configLocation>s_checks.xml</configLocation>
         </configuration>
         <executions>

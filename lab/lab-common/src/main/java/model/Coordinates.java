@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import org.jspecify.annotations.NonNull;
 
-public class Coordinates{
+public class Coordinates implements Serializable {
     private int x;
     @NonNull Long y; //Значение поля должно быть больше -383, Поле не может быть null
     public Coordinates(int x, @NonNull Long y) {

@@ -9,22 +9,23 @@ import util.DefaultRecursionController;
 import util.HumanBeingParser;
 import response.Response;
 import response.ResponseStatus;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class CollectionManager {
     private final Vector<HumanBeing> collection = new Vector<>();
     private final LocalDateTime initTime = LocalDateTime.now();
-    private final Map<Integer, HumanBeing> humansById = new HashMap<>();
+    private final Map<UUID, HumanBeing> humansById = new HashMap<>();
     private final InputValidator inputValidator;
     private final HumanBeingParser humanBeingParser;
     private final DefaultRecursionController recursionController;
     private final String collectionFilePath;
-    private int nextId = 1;
 
     public CollectionManager(Scanner scanner, String collectionFilePath) {
         this.inputValidator = new InputValidator(scanner);
@@ -34,7 +35,9 @@ public class CollectionManager {
     }
 
     public List<HumanBeing> show() {
-        return new ArrayList<>(collection);
+        return collection.stream()
+                .sorted(Comparator.comparing(HumanBeing::getName))
+                .collect(Collectors.toList());
     }
 
     public String clear(){
@@ -44,7 +47,11 @@ public class CollectionManager {
     }
 
     public String sort() {
-        Collections.sort(collection);
+        List<HumanBeing> sorted = collection.stream()
+                .sorted()
+                .collect(Collectors.toList());
+        collection.clear();
+        collection.addAll(sorted);
         return "Коллекция отсортирована.";
     }
 
@@ -66,7 +73,6 @@ remove_by_id id : удалить элемент из коллекции по е�
 clear : очистить коллекцию
 save : сохранить коллекцию в файл
 execute_script file_name : считать и исполнить скрипт из указанного файла. Для add, update id и remove_greater в скрипте поля элемента можно передавать следующими строками.
-exit : завершить программу (без сохранения в файл)
 remove_at index : удалить элемент, находящийся в заданной позиции коллекции (index)
 remove_greater {element} : удалить из коллекции все элементы, превышающие заданный
 sort : отсортировать коллекцию в естественном порядке
@@ -90,20 +96,18 @@ filter_starts_with_name name : вывести элементы, значение
     }
 
     public String add(HumanBeing human) {
+        human.setId(generateUniqueId());
         collection.add(human);
         humansById.put(human.getId(), human);
-        nextId = Math.max(nextId, human.getId() + 1);
         return "Element added successfully!";
     }
 
     public String countGreaterThanCar(Car inputCar) {
-        int count = 0;
-        for (HumanBeing human : collection) {
-            Car car = human.getCar();
-            if (car != null && car.compareTo(inputCar) > 0) {
-                count++;
-            }
-        }
+        long count = collection.stream()
+                .map(HumanBeing::getCar)
+                .filter(Objects::nonNull)
+                .filter(car -> car.compareTo(inputCar) > 0)
+                .count();
         return "Количество элементов: " + count;
     }
 
@@ -111,32 +115,46 @@ filter_starts_with_name name : вывести элементы, значение
         if (recursionController.checkRecursion(fileName)) {
             return new Response("Recursion detected! Script already running: " + fileName, ResponseStatus.ERROR, null);
         }
-        try (Scanner fileScanner = new Scanner(new FileInputStream(fileName))) {
+        try {
             recursionController.pushScript(fileName);
-            while (fileScanner.hasNextLine()) {
-                String line = fileScanner.nextLine().trim();
-                if (line.isEmpty()) continue;
-                line = prepareScriptCommand(line, fileScanner);
-                if (line == null) {
-                    return new Response("Ошибка чтения скрипта: " + fileName, ResponseStatus.ERROR, null);
-                }
-                System.out.println(">> " + line);
-                responsePrinter.print(reader.getLine(line));
-            }
-        } catch (FileNotFoundException e) {
+            ListIterator<String> scriptIterator = readScriptLines(fileName).listIterator();
+            return executeScriptLines(scriptIterator, reader, responsePrinter, fileName);
+        } catch (IOException e) {
             return new Response("File not found: " + fileName, ResponseStatus.ERROR, null);
         } finally {
             recursionController.popScript(fileName);
         }
-        return new Response("Скрипт выполнен: " + fileName, ResponseStatus.SUCCESS, null);
     }
-    private String prepareScriptCommand(String line, Scanner fileScanner) {
+
+    private List<String> readScriptLines(String fileName) throws IOException {
+        try (var lines = Files.lines(Path.of(fileName))) {
+            return lines.map(String::trim)
+                    .filter(line -> !line.isEmpty())
+                    .collect(Collectors.toList());
+        }
+    }
+
+    private Response executeScriptLines(ListIterator<String> scriptIterator, Reader reader,
+                                        ResponsePrinter responsePrinter, String fileName) {
+        if (!scriptIterator.hasNext()) {
+            return new Response("Скрипт выполнен: " + fileName, ResponseStatus.SUCCESS, null);
+        }
+        String line = prepareScriptCommand(scriptIterator.next(), scriptIterator);
+        if (line == null) {
+            return new Response("Ошибка чтения скрипта: " + fileName, ResponseStatus.ERROR, null);
+        }
+        System.out.println(">> " + line);
+        responsePrinter.print(reader.getLine(line));
+        return executeScriptLines(scriptIterator, reader, responsePrinter, fileName);
+    }
+
+    private String prepareScriptCommand(String line, ListIterator<String> scriptIterator) {
         if ("add".equals(line)) {
-            String humanData = readScriptHumanBeingData(fileScanner, "add");
+            String humanData = readScriptHumanBeingData(scriptIterator, "add");
             return humanData == null ? null : "add {" + humanData + "}";
         }
         if ("remove_greater".equals(line)) {
-            String humanData = readScriptHumanBeingData(fileScanner, "remove_greater");
+            String humanData = readScriptHumanBeingData(scriptIterator, "remove_greater");
             return humanData == null ? null : "remove_greater {" + humanData + "}";
         }
         if (line.startsWith("update ") && !line.contains("{")) {
@@ -145,23 +163,22 @@ filter_starts_with_name name : вывести элементы, значение
                 System.out.println("Ошибка: для update в скрипте нужно указать id отдельной строкой команды");
                 return null;
             }
-            String humanData = readScriptHumanBeingData(fileScanner, "update");
+            String humanData = readScriptHumanBeingData(scriptIterator, "update");
             return humanData == null ? null : "update " + parts[1].trim() + " {" + humanData + "}";
         }
         return line;
     }
-    private String readScriptHumanBeingData(Scanner fileScanner, String commandName) {
-        List<String> values = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            String value = readNextScriptValue(fileScanner, commandName);
-            if (value == null) {
-                return null;
-            }
-            values.add(value);
+
+    private String readScriptHumanBeingData(ListIterator<String> scriptIterator, String commandName) {
+        List<String> values = IntStream.range(0, 9)
+                .mapToObj(i -> readNextScriptValue(scriptIterator, commandName))
+                .collect(Collectors.toCollection(ArrayList::new));
+        if (values.stream().anyMatch(Objects::isNull)) {
+            return null;
         }
         String carName = values.get(8);
         if (!"null".equalsIgnoreCase(carName)) {
-            String carCool = readNextScriptValue(fileScanner, commandName);
+            String carCool = readNextScriptValue(scriptIterator, commandName);
             if (carCool == null) {
                 return null;
             }
@@ -170,23 +187,23 @@ filter_starts_with_name name : вывести элементы, значение
 
         return String.join(" ", values);
     }
-    private String readNextScriptValue(Scanner fileScanner, String commandName) {
-        while (fileScanner.hasNextLine()) {
-            String value = fileScanner.nextLine().trim();
-            if (value.isEmpty()) {
-                continue;
-            }
-            return value;
+
+    private String readNextScriptValue(ListIterator<String> scriptIterator, String commandName) {
+        if (scriptIterator.hasNext()) {
+            return scriptIterator.next();
         }
         System.out.println("Ошибка: в скрипте недостаточно данных для команды " + commandName);
         return null;
     }
 
-    public String update(long id, HumanBeing updatedHuman) {
-        if (!humansById.containsKey((int) id)) {
+    public String update(UUID id, HumanBeing updatedHuman) {
+        HumanBeing human = collection.stream()
+                .filter(currentHuman -> currentHuman.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+        if (human == null) {
             return "Элемент с таким id не найден";
         }
-        HumanBeing human = humansById.get((int) id);
         human.setName(updatedHuman.getName());
         human.setCoordinates(updatedHuman.getCoordinates());
         human.setRealHero(updatedHuman.isRealHero());
@@ -199,37 +216,28 @@ filter_starts_with_name name : вывести элементы, значение
     }
 
     public String removeGreater(HumanBeing example) {
-        Iterator<HumanBeing> iterator = collection.iterator();
-        int removed = 0;
-        while (iterator.hasNext()) {
-            HumanBeing human = iterator.next();
-            if (human.compareTo(example) > 0) {
-                iterator.remove();
-                humansById.remove(human.getId());
-                removed++;
-            }
-        }
+        Set<UUID> idsToRemove = collection.stream()
+                .filter(human -> human.compareTo(example) > 0)
+                .map(HumanBeing::getId)
+                .collect(Collectors.toSet());
+        int removed = idsToRemove.size();
+        collection.removeIf(human -> idsToRemove.contains(human.getId()));
+        idsToRemove.forEach(humansById::remove);
         return "Удалено элементов: " + removed;
     }
 
     public List<HumanBeing> filterContainsName(String substring) {
-        List<HumanBeing> result = new ArrayList<>();
-        for (HumanBeing human : collection) {
-            if (human.getName().contains(substring)) {
-                result.add(human);
-            }
-        }
-        return result;
+        return collection.stream()
+                .filter(human -> human.getName().contains(substring))
+                .sorted(Comparator.comparing(HumanBeing::getName))
+                .collect(Collectors.toList());
     }
 
     public List<HumanBeing> filterStartsWithName(String prefix) {
-        List<HumanBeing> result = new ArrayList<>();
-        for (HumanBeing human : collection) {
-            if (human.getName().startsWith(prefix)) {
-                result.add(human);
-            }
-        }
-        return result;
+        return collection.stream()
+                .filter(human -> human.getName().startsWith(prefix))
+                .sorted(Comparator.comparing(HumanBeing::getName))
+                .collect(Collectors.toList());
     }
 
     public String removeAt(long parameter) {
@@ -237,41 +245,45 @@ filter_starts_with_name name : вывести элементы, значение
         if (index < 0 || index >= collection.size()) {
             return "Индекс вне диапазона коллекции";
         }
-        HumanBeing humanBeing = collection.get(index);
+        HumanBeing humanBeing = collection.stream()
+                .skip(index)
+                .findFirst()
+                .orElse(null);
+        if (humanBeing == null) {
+            return "Индекс вне диапазона коллекции";
+        }
         collection.remove(index);
         humansById.remove(humanBeing.getId());
-        return "Элемент на позиции " + index + " удалён";
+        return "Элемент на позиции " + index + " " + humanBeing.getName() + " удалён";
     }
 
-    public String removeById(long parameter) {
-        int id = (int) parameter;
-        if (!humansById.containsKey(id)) {
+    public String removeById(UUID id) {
+        HumanBeing humanBeing = collection.stream()
+                .filter(human -> human.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+        if (humanBeing == null) {
             return "Элемент с таким ID не найден";
         }
-        HumanBeing humanBeing = humansById.get(id);
         collection.remove(humanBeing);
         humansById.remove(id);
         return "Элемент с id " + id + " успешно удалён";
     }
 
-    public void setNextId(int nextId) {
-        this.nextId = nextId;
-    }
-
     public HumanBeing createHumanBeingForAdd() {
-        return inputValidator.readHumanBeing(nextId);
+        return inputValidator.readHumanBeing();
     }
 
     public HumanBeing createHumanBeingTemplate() {
-        return inputValidator.readHumanBeing(0);
+        return inputValidator.readHumanBeing();
     }
 
     public HumanBeing parseHumanBeingForAdd(String raw) {
-        return humanBeingParser.parse(raw, nextId);
+        return humanBeingParser.parse(raw);
     }
 
     public HumanBeing parseHumanBeingTemplate(String raw) {
-        return humanBeingParser.parse(raw, 0);
+        return humanBeingParser.parse(raw);
     }
 
     public Car readCar() {
@@ -291,7 +303,25 @@ filter_starts_with_name name : вывести элементы, значение
     }
 
     public void addLoadedHumanBeing(HumanBeing humanBeing) {
+        boolean idAlreadyExists = collection.stream()
+                .anyMatch(human -> human.getId().equals(humanBeing.getId()));
+        if (idAlreadyExists) {
+            humanBeing.setId(generateUniqueId());
+        }
         collection.add(humanBeing);
         humansById.put(humanBeing.getId(), humanBeing);
+    }
+
+    private UUID generateUniqueId() {
+        UUID id;
+        do {
+            id = UUID.randomUUID();
+        } while (containsId(id));
+        return id;
+    }
+
+    private boolean containsId(UUID id) {
+        return collection.stream()
+                .anyMatch(human -> human.getId().equals(id));
     }
 }
