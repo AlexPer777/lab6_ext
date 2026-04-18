@@ -4,7 +4,7 @@ import model.*;
 
 public class HumanBeingParser {
 
-    public HumanBeing parse(String data, int id) {
+    public HumanBeing parse(String data) {
         try {
             String[] parts = data.trim().split("\\s+");
             int i = 0;
@@ -26,7 +26,6 @@ public class HumanBeingParser {
                 car = new Car(carName, carCool);
             }
             return new HumanBeing(
-                    id,
                     name,
                     coordinates,
                     realHero,

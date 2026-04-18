@@ -103,7 +103,7 @@ public class InputValidator {
         return new Car(name, cool);
     }
 
-    public HumanBeing readHumanBeing(int id) {
+    public HumanBeing readHumanBeing() {
         String name = readName();
         Coordinates coordinates = readCoordinates();
         boolean realHero = readBoolean("Введите realHero");
@@ -113,7 +113,6 @@ public class InputValidator {
         Mood mood = readMood();
         Car car = readCar();
         return new HumanBeing(
-                id,
                 name,
                 coordinates,
                 realHero,

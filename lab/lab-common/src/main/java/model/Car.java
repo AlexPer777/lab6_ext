@@ -2,8 +2,9 @@ package model;
 
 import org.jspecify.annotations.NonNull;
 
-public class Car implements Comparable<Car> {
+import java.io.Serializable;
 
+public class Car implements Comparable<Car>, Serializable {
     @NonNull private final String name; //Поле не может быть null
     @NonNull private final Boolean cool; //Поле не может быть null
 

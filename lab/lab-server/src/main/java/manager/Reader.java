@@ -8,6 +8,7 @@ import model.HumanBeing;
 import request.*;
 import response.Response;
 import response.ResponseStatus;
+import java.util.UUID;
 
 public class Reader {
 
@@ -37,14 +38,17 @@ public class Reader {
         String parameter = parsedInput.parameter();
 
         switch (command) {
-            case "help", "info", "show", "clear", "save", "sort", "exit" -> {
+            case "help", "info", "show", "clear", "save", "sort" -> {
                 if (parameter != null) {
                     throw new InputException(command);
                 }
                 return new NoArgumentRequest(command);
             }
-            case "remove_by_id", "remove_at" -> {
-                return new LongRequest(command, parseLong(parameter, command + " id"));
+            case "remove_by_id" -> {
+                return new UUIDRequest(command, parseUUID(parameter, command + " id"));
+            }
+            case "remove_at" -> {
+                return new LongRequest(command, parseLong(parameter, command + " index"));
             }
             case "filter_contains_name", "filter_starts_with_name", "execute_script" -> {
                 if (parameter == null || parameter.isBlank()) {
@@ -69,11 +73,11 @@ public class Reader {
                     throw new InputException("update id {element}");
                 }
                 String[] parts = parameter.trim().split("\\s+", 2);
-                long id = parseLong(parts[0], "update id {element}");
+                UUID id = parseUUID(parts[0], "update id {element}");
                 HumanBeing humanBeing = parts.length > 1
                         ? parseHumanBeingTemplate(parts[1], "update id {element}")
                         : collectionManager.createHumanBeingTemplate();
-                return new LongAndHumanBeingRequest(command, id, humanBeing);
+                return new UUIDAndHumanBeingRequest(command, id, humanBeing);
             }
             case "count_greater_than_car" -> {
                 Car car = parameter == null ? collectionManager.readCar() : collectionManager.parseCar(parameter);
@@ -153,7 +157,18 @@ public class Reader {
         }
     }
 
-    private Response toCommand(Request request) {
+    private UUID parseUUID(String parameter, String errorMessage) {
+        if (parameter == null || parameter.isBlank()) {
+            throw new InputException(errorMessage);
+        }
+        try {
+            return UUID.fromString(parameter.trim());
+        } catch (IllegalArgumentException e) {
+            throw new InputException(errorMessage);
+        }
+    }
+
+    public Response toCommand(Request request) {
         return commandExecutor.execute(request);
     }
 

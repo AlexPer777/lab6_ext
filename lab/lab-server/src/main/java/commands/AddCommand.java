@@ -12,8 +12,4 @@ public class AddCommand extends Command<HumanBeingRequest> {
     public Response execute(HumanBeingRequest request) {
         return success(collectionManager.add(request.getHumanBeing()));
     }
-//    @Override
-//    protected Response executeInternal(HumanBeingRequest request) {
-//        return success(collectionManager.add(request.getHumanBeing()));
-//    }
 }

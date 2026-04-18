@@ -20,12 +20,4 @@ public abstract class Command<T extends Request> {
         return new Response(message, ResponseStatus.SUCCESS, null);
     }
     public abstract Response execute(T request);
-    /*
-        public Response execute(T request) {
-        // validation logic
-        return executeInternal(request);
-    }
-
-    protected abstract Response executeInternal(T request);
-     */
 }

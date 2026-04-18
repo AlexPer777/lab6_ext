@@ -1,15 +1,15 @@
 package commands;
 
 import manager.CollectionManager;
-import request.LongRequest;
+import request.UUIDRequest;
 import response.Response;
 
-public class RemoveByIdCommand extends Command<LongRequest> {
+public class RemoveByIdCommand extends Command<UUIDRequest> {
     public RemoveByIdCommand(CollectionManager collectionManager){
-        super(collectionManager, LongRequest.class);
+        super(collectionManager, UUIDRequest.class);
     }
     @Override
-    public Response execute(LongRequest request) {
+    public Response execute(UUIDRequest request) {
         return success(collectionManager.removeById(request.getValue()));
     }
 }
