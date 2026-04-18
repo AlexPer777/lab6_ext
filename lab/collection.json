@@ -1,0 +1,452 @@
+[
+  {
+    "id": 6,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T19:49:48.861690",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 7,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T19:50:43.291668",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 8,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:00:38.615822",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 9,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:02:12.937706",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 10,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:07:57.441750",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 11,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:08:01.436318",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 12,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:08:19.641518",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 13,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:08:21.234463",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 14,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:08:26.491653",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 15,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:08:31.720255",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 16,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:08:33.078378",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 17,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:12:16.183450",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 19,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:12:28.460197",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 21,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:13:08.650004",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": false
+    }
+  },
+  {
+    "id": 22,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-02T20:26:20.059736",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": false
+    }
+  },
+  {
+    "id": 23,
+    "name": "355",
+    "coordinates": {
+      "x": 65,
+      "y": 65
+    },
+    "creationDate": "2026-04-02T20:40:12.905099",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 433,
+    "weaponType": "HAMMER",
+    "mood": "CALM",
+    "car": {
+      "name": "452",
+      "cool": true
+    }
+  },
+  {
+    "id": 24,
+    "name": "adad",
+    "coordinates": {
+      "x": 42,
+      "y": 424
+    },
+    "creationDate": "2026-04-04T14:37:16.782744",
+    "realHero": false,
+    "hasToothpick": true,
+    "impactSpeed": 5235,
+    "weaponType": "AXE",
+    "mood": "RAGE",
+    "car": {
+      "name": "4kdd",
+      "cool": true
+    }
+  },
+  {
+    "id": 25,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-04T14:37:47.370936",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 26,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-04T14:37:58.593878",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 27,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-04T14:37:59.485453",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 28,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-04T14:38:00.279053",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 29,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-04T14:38:26.028627",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 30,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-04T14:38:26.029245",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 31,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-04T16:32:17.945655",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  },
+  {
+    "id": 32,
+    "name": "Alex",
+    "coordinates": {
+      "x": 67,
+      "y": 67
+    },
+    "creationDate": "2026-04-04T16:32:17.949983",
+    "realHero": true,
+    "hasToothpick": true,
+    "impactSpeed": 67,
+    "weaponType": "AXE",
+    "mood": "SORROW",
+    "car": {
+      "name": "myu",
+      "cool": true
+    }
+  }
+]
