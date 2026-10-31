@@ -1,6 +1,6 @@
 # Лабораторная работа №6 — Программирование
 
-Клиент-серверное приложение для управления коллекцией объектов `HumanBeing`. Продолжение [лабораторной работы №5](https://github.com/AlexPer777/lab_5): клиент принимает команды, а сервер выполняет их и хранит коллекцию.
+Клиент-серверное приложение для управления коллекцией объектов `HumanBeing`. Продолжение [лабораторной работы №5](https://github.com/AlexPer777/lab5_java): клиент принимает команды, а сервер выполняет их и хранит коллекцию.
 
 **Курс:** 2-й семестр, весна.  
 **Протокол:** TCP (Transmission Control Protocol).  
@@ -86,7 +86,7 @@
 Нужны JDK 21 и Maven 3. Сборка запускается из каталога `lab`, содержащего родительский `pom.xml`.
 
 ```bash
-git clone https://github.com/AlexPer777/lab6_ext.git lab6_java
+git clone https://github.com/AlexPer777/lab6_java.git lab6_java
 cd lab6_java/lab
 mvn clean package
 ```
